@@ -19,6 +19,12 @@ class MultilingualBehavior extends Behavior
     public $attributes;
 
     /**
+     * Attributes which should fallback to default language if no translation is available
+     * @var array
+     */
+    public $fallbackToDefaultLanguage;
+
+    /**
      * Available languages
      * It can be a simple array: array('fr', 'en') or an associative array: array('fr' => 'Français', 'en' => 'English')
      * For associative arrays, only the keys will be used.
@@ -466,9 +472,14 @@ class MultilingualBehavior extends Behavior
         if ($this->hasLangAttribute($name)&&isset($this->langAttributes[$name])) {
             return $this->langAttributes[$name];
         }
-        $defaultTranslation = $this->getTranslation($this->defaultLanguage)->one();
+ 
+        if(is_array($this->fallbackToDefaultLanguage) && in_array($name, $this->fallbackToDefaultLanguage))
+        {
+                $defaultTranslation = $this->getTranslation($this->defaultLanguage)->one();
+                return $defaultTranslation->{$name};
+        }
 
-        return $defaultTranslation->{$name};
+        return null;
     }
 
     /**
