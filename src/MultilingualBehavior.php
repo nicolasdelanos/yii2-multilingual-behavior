@@ -263,7 +263,7 @@ class MultilingualBehavior extends Behavior
     {
         $language = $language ?: $this->getCurrentLanguage();
         return $this->owner->hasOne($this->langClassName, [$this->langForeignKey => $this->ownerPrimaryKey])
-            ->where([$this->languageField => $language]);
+            ->where([$this->tableName.'.'.$this->languageField => $language]);
     }
 
     /**
