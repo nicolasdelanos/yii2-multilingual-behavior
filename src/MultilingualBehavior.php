@@ -475,10 +475,10 @@ class MultilingualBehavior extends Behavior
  
         if(is_array($this->fallbackToDefaultLanguage) && in_array($name, $this->fallbackToDefaultLanguage))
         {
-                $defaultTranslation = $this->getTranslation($this->defaultLanguage)->one();
-                return $defaultTranslation->{$name};
-        }
-
+ 	       $defaultTranslation = $this->getTranslation($this->defaultLanguage)->one();
+	       return $defaultTranslation != null ? $defaultTranslation->{$name} : null; 
+	}
+    
         return null;
     }
 
